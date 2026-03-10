@@ -4,9 +4,15 @@
             <flux:heading size="xl">Users</flux:heading>
             <flux:subheading>Manage your application users.</flux:subheading>
         </div>
-        <flux:button href="" variant="primary" icon="plus" wire:navigate>
-            Add User
-        </flux:button>
+        <flux:breadcrumbs>
+            <flux:breadcrumbs.item href="{{ route('dashboard') }}" wire:navigate>
+                Dashboard
+            </flux:breadcrumbs.item>
+
+            <flux:breadcrumbs.item>
+                Users
+            </flux:breadcrumbs.item>
+        </flux:breadcrumbs>
     </div>
 
     @if (session('success'))
@@ -21,8 +27,13 @@
     </flux:callout>
     @endif
 
-    <div class="mb-4 max-w-sm">
-        <flux:input wire:model.live.debounce.300ms="search" placeholder="Search by name or email..." icon="magnifying-glass" />
+    <div class="flex items-center justify-between mb-6">
+        <div class="flex-1 max-w-lg">
+            <flux:input wire:model.live.debounce.300ms="search" placeholder="Search by name or email..." icon="magnifying-glass" />
+        </div>
+        <flux:button href="{{ route('users.create') }}" variant="primary" icon="plus" wire:navigate>
+            Add User
+        </flux:button>
     </div>
 
     <div class="overflow-x-auto rounded-lg border border-zinc-200 dark:border-zinc-700">
@@ -84,10 +95,10 @@
                     </td>
                     <td class="px-4 py-3">
                         <div class="flex items-center justify-end gap-2">
-                            <flux:button href="" variant="ghost" size="sm" icon="pencil" wire:navigate>
+                            <flux:button href="{{ route('users.edit', $user->id) }}" variant="ghost" size="sm" icon="pencil" wire:navigate>
                                 Edit
                             </flux:button>
-                            <flux:button wire:click="" wire:confirm="Are you sure you want to delete {{ $user->name }}?" variant="danger" size="sm" icon="trash">
+                            <flux:button wire:click="deleteUser({{ $user->id }})" wire:confirm="Are you sure you want to delete {{ $user->name }}?" variant="danger" size="sm" icon="trash">
                                 Delete
                             </flux:button>
                         </div>

@@ -6,10 +6,11 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class UserManagement extends Component
+class UserList extends Component
 {
     use WithPagination;
 
+    // index pages
     public string $search = '';
     public string $sortField = 'created_at';
     public string $sortDirection = 'desc';
@@ -54,9 +55,6 @@ class UserManagement extends Component
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(10);
 
-        $sortField = $this->sortField;
-        $sortDirection = $this->sortDirection;
-
-        return view('livewire.users.user-management', compact('users', 'sortField', 'sortDirection'));
+        return view('livewire.users.user-management', compact('users'));
     }
 }
