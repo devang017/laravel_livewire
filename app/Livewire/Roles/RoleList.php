@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Livewire\Users;
+namespace App\Livewire\Roles;
 
-use App\Models\User;
 use Livewire\Component;
-use Livewire\WithPagination;
+use Spatie\Permission\Models\Role;
 
-class UserList extends Component
+class RoleList extends Component
 {
-    use WithPagination;
-
     // index pages
     public string $search = '';
     public string $sortField = 'created_at';
@@ -30,31 +27,24 @@ class UserList extends Component
         }
     }
 
-    public function deleteUser(int $id): void
+    public function deleteRole(int $id): void
     {
-        $user = User::findOrFail($id);
-
-        if ($user->id === auth()->id()) {
-            session()->flash('error', 'You cannot delete your own account.');
-            return;
-        }
-
+        $user = Role::findOrFail($id);
         $user->delete();
         session()->flash('success', 'User deleted successfully.');
     }
 
     public function render()
     {
-        $users = User::query()
-            ->when(
-                $this->search,
-                fn($q) =>
-                $q->where('name', 'like', "%{$this->search}%")
-                    ->orWhere('email', 'like', "%{$this->search}%")
-            )
+        $roles = Role::query()->with('permissions:id,name')->when(
+            $this->search,
+            fn($q) =>
+            $q->where('name', 'like', "%{$this->search}%")
+                ->orWhere('email', 'like', "%{$this->search}%")
+        )
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(10);
 
-        return view('livewire.users.user-list', compact('users'));
+        return view('livewire.roles.role-list', compact('roles'));
     }
 }
