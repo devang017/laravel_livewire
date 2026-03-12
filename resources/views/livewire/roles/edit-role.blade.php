@@ -2,8 +2,9 @@
 
     <div class="flex items-center justify-between mb-6">
         <div>
-            <flux:heading size="xl">Edit User</flux:heading>
+            <flux:heading size="xl">Edit Role</flux:heading>
         </div>
+
         <flux:breadcrumbs>
             <flux:breadcrumbs.item href="{{ route('dashboard') }}" wire:navigate>
                 Dashboard
@@ -22,9 +23,44 @@
 
     <div class="max-w-xl">
 
-        <form wire:submit="updateRole" class="space-y-4 mt-6">
+        <form wire:submit="updateRole" class="space-y-6 mt-6">
 
-            <flux:input label="Name" wire:model="form.name" />
+            <flux:input label="Role Name" wire:model="form.name" />
+
+            <flux:field>
+
+                <flux:label>Permissions</flux:label>
+
+                <flux:dropdown position="bottom start">
+
+                    <flux:button icon-trailing="chevron-down" class="w-full justify-between">
+                        Select Permissions
+                    </flux:button>
+
+                    <flux:menu class="w-64 max-h-60 overflow-y-auto">
+
+                        @foreach($permissionList as $permission)
+
+                        <flux:menu.item as="div">
+                            <label class="flex items-center gap-2 cursor-pointer" onclick="event.stopPropagation()">
+
+                                <input type="checkbox" value="{{ $permission->name }}" wire:model="form.permissions">
+
+                                {{ $permission->name }}
+
+                            </label>
+                        </flux:menu.item>
+
+                        @endforeach
+
+                    </flux:menu>
+
+                </flux:dropdown>
+
+                <flux:error name="form.permissions" />
+
+            </flux:field>
+
 
             <div class="flex gap-3">
 

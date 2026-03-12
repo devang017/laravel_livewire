@@ -4,6 +4,7 @@ namespace App\Livewire\Roles;
 
 use App\Livewire\Forms\Role\CreateRoleForm;
 use Livewire\Component;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class CreateRole extends Component
@@ -12,14 +13,17 @@ class CreateRole extends Component
 
     public function render()
     {
-        return view('livewire.roles.create-role');
+        $permissions = Permission::all();
+        return view('livewire.roles.create-role', compact('permissions'));
     }
 
     public function saveRole()
     {
         $this->validate();
 
-        Role::create($this->form->all());
+        $role = Role::create($this->form->all());
+
+        $role->syncPermissions($this->form->permissions);
 
         session()->flash('success', 'Role created successfully.');
 

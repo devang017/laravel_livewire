@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Forms\Role;
 
-use Illuminate\Validation\Rule;
 use Livewire\Form;
 
 class EditRoleForm extends Form
@@ -11,13 +10,14 @@ class EditRoleForm extends Form
 
     public string $name = '';
 
+    public $permissions = [];
+
     public function rules()
     {
         return [
-            'name' => [
-                'required',
-                Rule::unique('roles', 'name')->ignore($this->roleId),
-            ],
+            'name' => 'required|min:3|max:50|unique:roles,name,' . $this->roleId,
+            'permissions' => 'required|array',
+            'permissions.*' => 'exists:permissions,name',
         ];
     }
 }
