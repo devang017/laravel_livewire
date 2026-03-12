@@ -67,9 +67,11 @@
                             </span>
                         </button>
                     </th>
+                    @canany(['permission edit', 'permission delete'])
                     <th class="px-4 py-3 text-right font-medium text-zinc-500 dark:text-zinc-400">
                         Actions
                     </th>
+                    @endcanany
                 </tr>
             </thead>
             <tbody class="divide-y divide-zinc-200 dark:divide-zinc-700">
@@ -84,16 +86,22 @@
                     <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">
                         {{ $permission->created_at?->format('d M Y') }}
                     </td>
+                    @canany(['permission edit', 'permission delete'])
                     <td class="px-4 py-3">
                         <div class="flex items-center justify-end gap-2">
+                            @can('permission edit')
                             <flux:button href="{{ route('permissions.edit', $permission->id) }}" variant="ghost" size="sm" icon="pencil" wire:navigate>
                                 Edit
                             </flux:button>
+                            @endcan
+                            @can('permission delete')
                             <flux:button wire:click="deletePermission({{ $permission->id }})" wire:confirm="Are you sure you want to delete {{ $permission->name }} Permission?" variant="danger" size="sm" icon="trash">
                                 Delete
                             </flux:button>
+                            @endcan
                         </div>
                     </td>
+                    @endcanany
                 </tr>
                 @empty
                 <tr>

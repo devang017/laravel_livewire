@@ -81,9 +81,11 @@
                             </span>
                         </button>
                     </th>
+                    @canany(['user edit', 'user delete'])
                     <th class="px-4 py-3 text-right font-medium text-zinc-500 dark:text-zinc-400">
                         Actions
                     </th>
+                    @endcanany
                 </tr>
             </thead>
             <tbody class="divide-y divide-zinc-200 dark:divide-zinc-700">
@@ -101,16 +103,22 @@
                     <td class="px-4 py-3 text-zinc-500 dark:text-zinc-400">
                         {{ $user->created_at->format('d M Y') }}
                     </td>
+                    @canany(['user edit', 'user delete'])
                     <td class="px-4 py-3">
                         <div class="flex items-center justify-end gap-2">
+                            @can('user edit')
                             <flux:button href="{{ route('users.edit', $user->id) }}" variant="ghost" size="sm" icon="pencil" wire:navigate>
                                 Edit
                             </flux:button>
+                            @endcan
+                            @can('user delete')
                             <flux:button wire:click="deleteUser({{ $user->id }})" wire:confirm="Are you sure you want to delete {{ $user->name }}?" variant="danger" size="sm" icon="trash">
                                 Delete
                             </flux:button>
+                            @endcan
                         </div>
                     </td>
+                    @endcanany
                 </tr>
                 @empty
                 <tr>
