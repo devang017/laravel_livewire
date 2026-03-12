@@ -34,6 +34,8 @@ class PermissionList extends Component
     public function deletePermission(int $id): void
     {
         $permission = Permission::findOrFail($id);
+        $permission->roles()->detach();
+        $permission->users()->detach();
         $permission->delete();
         session()->flash('success', 'Permission deleted successfully.');
     }

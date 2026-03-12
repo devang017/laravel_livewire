@@ -33,6 +33,8 @@ class RoleList extends Component
     public function deleteRole(int $id): void
     {
         $role = Role::findOrFail($id);
+        $role->users()->detach();
+        $role->permissions()->detach();
         $role->delete();
         session()->flash('success', 'Role deleted successfully.');
     }
