@@ -9,4 +9,10 @@ class CreatePermissionForm extends Form
 {
     #[Validate('required|min:3|max:50|unique:permissions,name')]
     public string $name;
+
+    #[Validate('required|array')]
+    public array $roles = [];
+
+    #[Validate('exists:roles,name')]
+    public array $rolesItems = [];
 }

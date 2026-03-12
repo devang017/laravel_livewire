@@ -6,10 +6,17 @@ namespace App\Livewire\Permissions;
 use App\Livewire\Forms\Permission\CreatePermissionForm;
 use Livewire\Component;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class CreatePermission extends Component
 {
     public CreatePermissionForm $form;
+    public $roleList = [];
+
+    public function mount()
+    {
+        $this->roleList = Role::all();
+    }
 
     public function render()
     {
@@ -20,7 +27,9 @@ class CreatePermission extends Component
     {
         $this->validate();
 
-        Permission::create($this->form->all());
+        $data = Permission::create($this->form->all());
+
+        $data->syncRoles($this->form->roles);
 
         session()->flash('success', 'Permission created successfully.');
 

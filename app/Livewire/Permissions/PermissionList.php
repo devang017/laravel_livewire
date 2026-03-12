@@ -40,7 +40,7 @@ class PermissionList extends Component
 
     public function render()
     {
-        $permissions = Permission::query()->when(
+        $permissions = Permission::query()->with('roles')->when(
             $this->search,
             fn($q) =>
             $q->where('name', 'like', "%{$this->search}%")

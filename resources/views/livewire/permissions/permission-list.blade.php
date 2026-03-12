@@ -51,6 +51,11 @@
                         </button>
                     </th>
                     <th class="px-4 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">
+                        <span class="text-xs">
+                            Roles
+                        </span>
+                    </th>
+                    <th class="px-4 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">
                         <button wire:click="sort('created_at')" class="flex items-center gap-1 hover:text-zinc-900 dark:hover:text-white transition-colors">
                             Created Date
                             <span class="text-xs">
@@ -72,6 +77,9 @@
                 <tr wire:key="{{ $permission->id }}" class="bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 transition-colors">
                     <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">
                         {{ $permission->name }}
+                    </td>
+                    <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">
+                        {{ $permission->roles->pluck('name')?->implode(', ') }}
                     </td>
                     <td class="px-4 py-3 font-medium text-zinc-900 dark:text-white">
                         {{ $permission->created_at?->format('d M Y') }}
