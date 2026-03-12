@@ -20,6 +20,41 @@
     <div class="max-w-xl">
         <form wire:submit="updatePermission" class="space-y-4 mt-6">
             <flux:input label="Name" wire:model="form.name" />
+
+            <flux:field>
+
+                <flux:label>Roles</flux:label>
+
+                <flux:dropdown position="bottom start">
+
+                    <flux:button icon-trailing="chevron-down" class="w-full justify-between">
+                        Select Roles
+                    </flux:button>
+
+                    <flux:menu class="w-64 max-h-60 overflow-y-auto">
+
+                        @foreach($roleList as $role)
+
+                        <flux:menu.item as="div">
+                            <label class="flex items-center gap-2 cursor-pointer" onclick="event.stopPropagation()">
+
+                                <input type="checkbox" value="{{ $role->name }}" wire:model="form.roles">
+
+                                {{ $role->name }}
+
+                            </label>
+                        </flux:menu.item>
+
+                        @endforeach
+
+                    </flux:menu>
+
+                </flux:dropdown>
+
+                <flux:error name="form.roles" />
+
+            </flux:field>
+
             <div class="flex gap-3">
                 <flux:button type="submit" variant="primary">
                     Update Permission

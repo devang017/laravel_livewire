@@ -42,7 +42,7 @@
                         <flux:menu.item as="div">
                             <label class="flex items-center gap-2 cursor-pointer" onclick="event.stopPropagation()">
 
-                                <input type="checkbox" value="{{ $permission->name }}" wire:model="selectedPermissions">
+                                <input type="checkbox" value="{{ $permission->name }}" wire:model="form.permissions">
 
                                 {{ $permission->name }}
 

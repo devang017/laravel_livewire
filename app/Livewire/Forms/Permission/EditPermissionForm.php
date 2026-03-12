@@ -11,6 +11,8 @@ class EditPermissionForm extends Form
 
     public string $name = '';
 
+    public array $roles = [];
+
     public function rules()
     {
         return [
@@ -18,6 +20,8 @@ class EditPermissionForm extends Form
                 'required',
                 Rule::unique('permissions', 'name')->ignore($this->permissionId),
             ],
+            'roles' => 'required|array',
+            'roles.*' => 'exists:roles,name',
         ];
     }
 }
