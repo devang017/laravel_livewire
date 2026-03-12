@@ -11,10 +11,16 @@ class CreateRole extends Component
 {
     public CreateRoleForm $form;
 
+    public $permissions = [];
+
+    public function mount()
+    {
+        $this->permissions = Permission::all();
+    }
+
     public function render()
     {
-        $permissions = Permission::all();
-        return view('livewire.roles.create-role', compact('permissions'));
+        return view('livewire.roles.create-role');
     }
 
     public function saveRole()
