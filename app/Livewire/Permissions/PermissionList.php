@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Livewire\Roles;
+namespace App\Livewire\Permissions;
+
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
-class RoleList extends Component
+class PermissionList extends Component
 {
     use WithPagination;
 
@@ -30,16 +31,16 @@ class RoleList extends Component
         }
     }
 
-    public function deleteRole(int $id): void
+    public function deletePermission(int $id): void
     {
-        $role = Role::findOrFail($id);
-        $role->delete();
-        session()->flash('success', 'Role deleted successfully.');
+        $permission = Permission::findOrFail($id);
+        $permission->delete();
+        session()->flash('success', 'Permission deleted successfully.');
     }
 
     public function render()
     {
-        $roles = Role::query()->with('permissions:id,name')->when(
+        $permissions = Permission::query()->when(
             $this->search,
             fn($q) =>
             $q->where('name', 'like', "%{$this->search}%")
@@ -47,6 +48,6 @@ class RoleList extends Component
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(10);
 
-        return view('livewire.roles.role-list', compact('roles'));
+        return view('livewire.permissions.permission-list', compact('permissions'));
     }
 }
