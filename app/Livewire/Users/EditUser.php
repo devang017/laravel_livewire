@@ -6,6 +6,7 @@ use App\Livewire\Forms\User\EditUserForm;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Spatie\Permission\Models\Role;
 
 class EditUser extends Component
 {
@@ -13,11 +14,19 @@ class EditUser extends Component
 
     public $user;
 
+    public $roleList = [];
+
     public function mount(string $id)
     {
         $this->user = User::findOrFail($id);
+        $this->roleList = Role::all();
         $this->form->userId = $this->user->id;
         $this->form->fill($this->user->toArray());
+
+        $this->form->roles = $this->user
+            ->roles
+            ->pluck('name')
+            ->toArray();
     }
 
     public function render()
@@ -38,6 +47,8 @@ class EditUser extends Component
         }
 
         $this->user->update($data);
+
+        $this->user->syncRoles($this->form->roles);
 
         session()->flash('success', 'User updated successfully');
 

@@ -29,6 +29,40 @@
 
                 <flux:input label="Email" type="email" wire:model="form.email" />
 
+                <flux:field>
+
+                    <flux:label>Roles</flux:label>
+
+                    <flux:dropdown position="bottom start">
+
+                        <flux:button icon-trailing="chevron-down" class="w-full justify-between">
+                            Select Roles
+                        </flux:button>
+
+                        <flux:menu class="w-64 max-h-60 overflow-y-auto">
+
+                            @foreach($roleList as $role)
+
+                            <flux:menu.item as="div">
+                                <label class="flex items-center gap-2 cursor-pointer" onclick="event.stopPropagation()">
+
+                                    <input type="checkbox" value="{{ $role->name }}" wire:model="form.roles">
+
+                                    {{ $role->name }}
+
+                                </label>
+                            </flux:menu.item>
+
+                            @endforeach
+
+                        </flux:menu>
+
+                    </flux:dropdown>
+
+                    <flux:error name="form.roles" />
+
+                </flux:field>
+
                 <flux:input label="Password" type="password" wire:model="form.password" />
 
                 <flux:input label="Confirm Password" type="password" wire:model="form.password_confirmation" />

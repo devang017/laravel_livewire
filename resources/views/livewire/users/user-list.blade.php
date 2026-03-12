@@ -65,6 +65,11 @@
                         </button>
                     </th>
                     <th class="px-4 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">
+                        <span class="text-xs">
+                            Roles
+                        </span>
+                    </th>
+                    <th class="px-4 py-3 text-left font-medium text-zinc-500 dark:text-zinc-400">
                         <button wire:click="sort('created_at')" class="flex items-center gap-1 hover:text-zinc-900 dark:hover:text-white transition-colors">
                             Joined
                             <span class="text-xs">
@@ -89,6 +94,9 @@
                     </td>
                     <td class="px-4 py-3 text-zinc-500 dark:text-zinc-400">
                         {{ $user->email }}
+                    </td>
+                    <td class="px-4 py-3 text-zinc-500 dark:text-zinc-400">
+                        {{ $user->roles->pluck('name')?->implode(', ') }}
                     </td>
                     <td class="px-4 py-3 text-zinc-500 dark:text-zinc-400">
                         {{ $user->created_at->format('d M Y') }}

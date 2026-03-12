@@ -13,6 +13,12 @@ class CreateUserForm extends Form
     #[Validate('required|email|unique:users,email')]
     public string $email;
 
+    #[Validate('required|array')]
+    public array $roles = [];
+
+    #[Validate('exists:roles,name')]
+    public array $rolesItems = [];
+
     #[Validate('required|min:6|max:100|confirmed')]
     public string $password;
 

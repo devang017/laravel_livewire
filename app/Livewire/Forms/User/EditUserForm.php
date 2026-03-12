@@ -15,6 +15,12 @@ class EditUserForm extends Form
 
     public string $email = '';
 
+    #[Validate('required|array')]
+    public array $roles = [];
+
+    #[Validate('exists:roles,name')]
+    public array $rolesItems = [];
+
     #[Validate('nullable|min:6|max:100|confirmed')]
     public string $password;
 

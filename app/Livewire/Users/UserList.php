@@ -5,6 +5,7 @@ namespace App\Livewire\Users;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Spatie\Permission\Models\Role;
 
 class UserList extends Component
 {
@@ -39,13 +40,16 @@ class UserList extends Component
             return;
         }
 
+        $user->roles()->detach();
+        $user->permissions()->detach();
+
         $user->delete();
         session()->flash('success', 'User deleted successfully.');
     }
 
     public function render()
     {
-        $users = User::query()
+        $users = User::query()->with('roles:name')
             ->when(
                 $this->search,
                 fn($q) =>
